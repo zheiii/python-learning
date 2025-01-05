@@ -999,8 +999,14 @@ data = """16 18 20 22 23 22
 31 33 34 37 38
 87 85 83 82 79
 """
-rows = data.strip().split("\n")
-reports = [[int(x)for x in row.replace(","," ").split()] for row in rows ]
+reports = data.split("\n")
+number_of_reports = len(reports)
+for index in range (number_of_reports):
+    reports[index] = reports[index].split()
+    levels = reports[index]
+    number_of_levels = len(levels)
+    for index in range (number_of_levels):
+        levels[index] = int(levels[index])
 report_index = 0
 level_index = 0
 safe_reports = 0
