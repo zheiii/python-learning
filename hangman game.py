@@ -1,13 +1,16 @@
-secret_word = "python"
+words = ["banana", "python", "hangman", "apple"]
+import random
+random_index = random.randint(0, len(words)-1)
+secret_word = words[random_index]
 lives = 6
 output_index = 0
 right_guesses = 0
 guessed_letters = set()
-letters = set(secret_word)
-win_point = len(letters)
 charachters = len(secret_word)
 output = "- "*charachters
 output = output.split()
+print("".join(output))
+letters = set(secret_word)
 
 while lives > 0 :
     letter = input("guess:")
@@ -15,19 +18,20 @@ while lives > 0 :
         print("you've already guessed that word")
     elif letter in secret_word:
         right_guesses = right_guesses+1
-        for output_index in range(len(secret_word)):
+        for output_index in range(charachters):
             if secret_word[output_index] == letter:
                 output[output_index] = letter
-                print("".join(output))
                 guessed_letters.add(letter)
-                lives = lives-1
+        print("".join(output))
+        if right_guesses == len(letters):
+            print("there you go!")
+            break            
+    elif letter in guessed_letters:
+        print("you've already guessed that word")
     else:
         print("wrong:(")
         guessed_letters.add(letter)
         lives = lives-1
 else:
-    if right_guesses == win_point:
-                    print("there you go!")
-    else:
-        print("oops! you ran out of guesses.")
+    print("oops! you ran out of guesses.")
 
