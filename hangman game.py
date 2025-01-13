@@ -26,8 +26,6 @@ while lives > 0 :
         if right_guesses == len(letters):
             print("there you go!")
             break            
-    elif letter in guessed_letters:
-        print("you've already guessed that word")
     else:
         print("wrong:(")
         guessed_letters.add(letter)
