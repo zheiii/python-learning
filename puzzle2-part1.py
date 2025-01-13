@@ -1007,20 +1007,38 @@ for index in range (number_of_reports):
     number_of_levels = len(levels)
     for index in range (number_of_levels):
         levels[index] = int(levels[index])
+
+new_report = []
+
 def gradually_increasing(report):
     true = 0
+    BadLevels = 0
     for index in range(len(report)-1):
         if report[index]<report[index+1]:
             true = true+1
             if true == len(report)-1:
                 return True
+        else:
+            BadLevels = BadLevels+1
+            if BadLevels == 1:
+                global new_report
+                new_report = report.copy()
+                del new_report[index+1]
+                
 def gradually_decreasing(report):
     true = 0
+    BadLevels = 1
     for index in range(len(report)-1):
         if report[index]>report[index+1]:
             true = true+1
             if true == len(report)-1:
                 return True
+        else:
+            BadLevels = BadLevels+1
+            if BadLevels == 1:
+                global new_report
+                new_report = report.copy()
+                del new_report[index+1]
             
 def diff(report):
     true = 0
@@ -1029,10 +1047,15 @@ def diff(report):
             true = true +1
             if true == len(report)-1:
                 return True
+            
 safe_reports = 0
+
 for index in range(len(reports)-1) :
     if gradually_increasing(reports[index]) or gradually_decreasing(reports[index]):
         if diff(reports[index]):
+            safe_reports = safe_reports + 1
+    elif gradually_increasing(new_report) or gradually_decreasing(new_report):
+        if diff(new_report):
             safe_reports = safe_reports + 1
 print(safe_reports)
 
