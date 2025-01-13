@@ -11,7 +11,9 @@ output = output.split()
 
 while lives > 0 :
     letter = input("guess:")
-    if letter in secret_word:
+    if letter in guessed_letters:
+        print("you've already guessed that word")
+    elif letter in secret_word:
         right_guesses = right_guesses+1
         for output_index in range(len(secret_word)):
             if secret_word[output_index] == letter:
@@ -19,9 +21,6 @@ while lives > 0 :
                 print("".join(output))
                 guessed_letters.add(letter)
                 lives = lives-1
-        
-    elif letter in guessed_letters:
-        print("you've already guessed that word")
     else:
         print("wrong:(")
         guessed_letters.add(letter)
