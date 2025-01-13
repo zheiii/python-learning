@@ -999,22 +999,41 @@ data = """16 18 20 22 23 22
 31 33 34 37 38
 87 85 83 82 79
 """
-rows = data.strip().split("\n")
-reports = [[int(x)for x in row.replace(","," ").split()] for row in rows ]
-report_index = 0
-level_index = 0
+reports = data.split("\n")
+number_of_reports = len(reports)
+for index in range (number_of_reports):
+    reports[index] = reports[index].split()
+    levels = reports[index]
+    number_of_levels = len(levels)
+    for index in range (number_of_levels):
+        levels[index] = int(levels[index])
+def gradually_increasing(report):
+    true = 0
+    for index in range(len(report)-1):
+        if report[index]<report[index+1]:
+            true = true+1
+            if true == len(report)-1:
+                return True
+def gradually_decreasing(report):
+    true = 0
+    for index in range(len(report)-1):
+        if report[index]>report[index+1]:
+            true = true+1
+            if true == len(report)-1:
+                return True
+            
+def diff(report):
+    true = 0
+    for index in range(len(report)-1):
+        if 1 <= abs(report[index]-report[index+1]) <= 3:
+            true = true +1
+            if true == len(report)-1:
+                return True
 safe_reports = 0
-while report_index < len(reports)-1 :
-    gradually_increasing = all((reports[report_index][level_index])<(reports[report_index][level_index+1])
-                           for level_index in range(len(reports[report_index])-1))
-    gradually_decreasing = all((reports[report_index][level_index])>(reports[report_index][level_index+1])
-                               for level_index in range(len(reports[report_index])-1))
-    diff = all(1<=abs((reports[report_index][level_index])-(reports[report_index][level_index+1]))<=3
-               for level_index in range(len(reports[report_index])-1))
-    if gradually_increasing or gradually_decreasing:
-        if diff:
+for index in range(len(reports)-1) :
+    if gradually_increasing(reports[index]) or gradually_decreasing(reports[index]):
+        if diff(reports[index]):
             safe_reports = safe_reports + 1
-    report_index = report_index + 1
 print(safe_reports)
 
     
