@@ -78,7 +78,7 @@ def check_win(board):
             
         for col in range(3):
             if board[0][col] == board[1][col] == board[2][col] != ' ':
-                if row[0][col] == "X":
+                if board[0][col] == "X":
                     print(f"{player1} won!")
                 else:
                     print(f"{player2} won!")
