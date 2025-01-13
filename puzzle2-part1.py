@@ -1057,6 +1057,12 @@ for index in range(len(reports)-1) :
     elif gradually_increasing(new_report) or gradually_decreasing(new_report):
         if diff(new_report):
             safe_reports = safe_reports + 1
+    else:
+        first_element = reports[index].copy()
+        del first_element[0]
+        if gradually_increasing(first_element) or gradually_decreasing(first_element):
+            if diff(first_element):
+                safe_reports = safe_reports + 1
 print(safe_reports)
 
     
