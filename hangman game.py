@@ -16,7 +16,7 @@ while lives > 0 :
     letter = input("guess:")
     if letter in guessed_letters:
         print("you've already guessed that word")
-    elif letter in secret_word:
+    elif letter in secret_word and letter != " " :
         right_guesses = right_guesses+1
         for output_index in range(charachters):
             if secret_word[output_index] == letter:
