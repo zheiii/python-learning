@@ -1009,6 +1009,7 @@ for index in range (number_of_reports):
         levels[index] = int(levels[index])
 
 new_report = []
+safe_reports = 0 
 
 def gradually_increasing(report):
     true = 0
@@ -1048,7 +1049,7 @@ def diff(report):
             if true == len(report)-1:
                 return True
             
-safe_reports = 0
+
 
 for index in range(len(reports)-1) :
     if gradually_increasing(reports[index]) or gradually_decreasing(reports[index]):
