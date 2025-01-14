@@ -1060,8 +1060,14 @@ for index in range(len(reports)-1) :
             safe_reports = safe_reports + 1
     else:
         first_element = reports[index].copy()
+        last_element = reports[index].copy()
         del first_element[0]
         if gradually_increasing(first_element) or gradually_decreasing(first_element):
             if diff(first_element):
                 safe_reports = safe_reports + 1
+        else:
+            del last_element[-1] 
+            if gradually_increasing(last_element) or gradually_decreasing(last_element):
+                if diff(last_element):
+                    safe_reports = safe_reports + 1     
 print(safe_reports)
