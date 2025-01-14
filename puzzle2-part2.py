@@ -999,45 +999,69 @@ data = """16 18 20 22 23 22
 31 33 34 37 38
 87 85 83 82 79
 """
-rows = data.strip().split("\n")
-reports = [[int(x)for x in row.replace(","," ").split()] for row in rows ]
-report_index = 0
-level_index = 0
-safe_reports = 0
-BadLevelCounter = 0
-NumberOfReports = len(reports)
-while report_index < NumberOfReports:
-    gradually_increasing = all((reports[report_index][level_index])<(reports[report_index][level_index+1])
-                           for level_index in range(len(reports[report_index])-1))
-    gradually_decreasing = all((reports[report_index][level_index])>(reports[report_index][level_index+1])
-                               for level_index in range(len(reports[report_index])-1))
-    diff = all(1<=abs((reports[report_index][level_index])-(reports[report_index][level_index+1]))<=3
-               for level_index in range(len(reports[report_index])-1))
-    if gradually_increasing or gradually_decreasing:
-        if diff:
-            safe_reports = safe_reports + 1
+reports = data.split("\n")
+number_of_reports = len(reports)
+for index in range (number_of_reports):
+    reports[index] = reports[index].split()
+    levels = reports[index]
+    number_of_levels = len(levels)
+    for index in range (number_of_levels):
+        levels[index] = int(levels[index])
+
+new_report = []
+safe_reports = 0 
+
+def gradually_increasing(report):
+    true = 0
+    BadLevels = 0
+    for index in range(len(report)-1):
+        if report[index]<report[index+1]:
+            true = true+1
+            if true == len(report)-1:
+                return True
         else:
-            while level_index < len(reports[report_index])-1:
-                if 1<=abs((reports[report_index][level_index])-(reports[report_index][level_index+1]))<=3 :
-                    level_index = level_index + 1
-                else:
-                    del reports[report_index][level_index+1]
-                    if diff:
-                        safe_reports = safe_reports + 1 
+            BadLevels = BadLevels+1
+            if BadLevels == 1:
+                global new_report
+                new_report = report.copy()
+                del new_report[index+1]
+                
+def gradually_decreasing(report):
+    true = 0
+    BadLevels = 1
+    for index in range(len(report)-1):
+        if report[index]>report[index+1]:
+            true = true+1
+            if true == len(report)-1:
+                return True
+        else:
+            BadLevels = BadLevels+1
+            if BadLevels == 1:
+                global new_report
+                new_report = report.copy()
+                del new_report[index+1]
+            
+def diff(report):
+    true = 0
+    for index in range(len(report)-1):
+        if 1 <= abs(report[index]-report[index+1]) <= 3:
+            true = true +1
+            if true == len(report)-1:
+                return True
+            
+
+
+for index in range(len(reports)-1) :
+    if gradually_increasing(reports[index]) or gradually_decreasing(reports[index]):
+        if diff(reports[index]):
+            safe_reports = safe_reports + 1
+    elif gradually_increasing(new_report) or gradually_decreasing(new_report):
+        if diff(new_report):
+            safe_reports = safe_reports + 1
     else:
-        while level_index < len(reports[report_index])-1:
-            if (reports[report_index][level_index])<(reports[report_index][level_index+1]):
-                level_index = level_index+1
-            else:
-                del reports[report_index][level_index+1]
-                if diff:
-                        safe_reports = safe_reports + 1
-        while level_index < len(reports[report_index])-1:
-            if (reports[report_index][level_index])>(reports[report_index][level_index+1]):
-                level_index = level_index+1
-            else:
-                del reports[report_index][level_index+1]
-                if diff:
-                        safe_reports = safe_reports + 1
-    report_index = report_index + 1
+        first_element = reports[index].copy()
+        del first_element[0]
+        if gradually_increasing(first_element) or gradually_decreasing(first_element):
+            if diff(first_element):
+                safe_reports = safe_reports + 1
 print(safe_reports)
