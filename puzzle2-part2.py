@@ -1048,8 +1048,6 @@ def diff(report):
             true = true +1
             if true == len(report)-1:
                 return True
-            
-
 
 for index in range(len(reports)-1) :
     if gradually_increasing(reports[index]) or gradually_decreasing(reports[index]):
